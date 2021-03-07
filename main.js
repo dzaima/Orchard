@@ -1,5 +1,5 @@
 var j;
-var me = 232772;
+var me = -1;
 async function load() {
   loadLnk();
   msgs.innerText = "Downloading history...";
