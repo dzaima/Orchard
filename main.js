@@ -12,9 +12,11 @@ async function load() {
     j.forEach(c=>{
       c.userLower = c.username.toLowerCase()
       c.htmlLower = c.html.toLowerCase()
+      c.textLower = c.text.toLowerCase()
       if (c.replyID!=-1) {
         c.html = `<a href="https://chat.stackexchange.com/transcript/52405?m=${c.replyID}#${c.replyID}" class="reply"> </a>${c.html}`
         c.htmlLower = `:${c.replyID} ${c.htmlLower}`;
+        c.textLower = `:${c.replyID} ${c.textLower}`;
       }
       c.date = new Date(c.time*1000);
     });
@@ -57,10 +59,10 @@ function upd() {
       ands.push(curr); ors.push(ands);
       console.log(ors);
       ors = ors.filter(c=>c.length).map(c=>c.filter(k=>k.length));
-      matched = matched.filter(c=>ors.some(ands => ands.every(k=>c.htmlLower.includes(k))));
+      matched = matched.filter(c=>ors.some(ands => ands.every(k=>c.textLower.includes(k) || c.htmlLower.includes(k))));
     } else {
       exp = exp.substring(1);
-      matched = matched.filter(c=>c.htmlLower.includes(exp));
+      matched = matched.filter(c=>c.textLower.includes(exp) || c.htmlLower.includes(exp));
     }
   }
   pam = ((matched.length-1)/psz|0)+1;
